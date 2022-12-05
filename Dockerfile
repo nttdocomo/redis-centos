@@ -4,7 +4,7 @@ FROM centos:7.8.2003
 COPY ./redis-5.0.14.tar.gz /
 
 RUN set -x \
-    && yum --nogpg install -y gcc make glibc openssl-devel dpkg-devel \
+    && yum --nogpg install -y gcc make glibc openssl-devel dpkg-devel dpkg-dev \
     && mkdir -p /usr/src/redis \
     && tar -xzC /usr/src/redis --strip-components=1 -f redis-5.0.14.tar.gz \
     && rm redis-5.0.14.tar.gz \
