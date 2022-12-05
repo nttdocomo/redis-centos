@@ -26,4 +26,8 @@ RUN set -x \
 	&& case "${dpkgArch##*-}" in \
 		amd64 | i386 | x32) extraJemallocConfigureFlags="$extraJemallocConfigureFlags --with-lg-page=12" ;; \
 		*) extraJemallocConfigureFlags="$extraJemallocConfigureFlags --with-lg-page=16" ;; \
-	esac
+	esac \
+	&& extraJemallocConfigureFlags="$extraJemallocConfigureFlags --with-lg-hugepage=21" \
+	&& grep -F 'cd jemalloc && ./configure ' /usr/src/redis/deps/Makefile \
+	&& sed -ri 's!cd jemalloc && ./configure !&'"$extraJemallocConfigureFlags"' !' /usr/src/redis/deps/Makefile \
+	&& grep -F "cd jemalloc && ./configure $extraJemallocConfigureFlags " /usr/src/redis/deps/Makefile
