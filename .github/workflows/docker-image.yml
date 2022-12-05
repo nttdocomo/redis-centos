@@ -10,8 +10,8 @@ on:
 # 定义 APP_NAME 用于 docker build-args
 # 定义 DOCKERHUB_REPO 标记 docker hub repo 名称
 env:
-  APP_NAME: redis-centos
-  DOCKERHUB_REPO: nttdocomoouyi/redis-centos
+  APP_NAME: snuba-centos
+  DOCKERHUB_REPO: nttdocomoouyi/snuba-centos
 
 jobs:
 
@@ -31,4 +31,4 @@ jobs:
       - uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.DOCKERHUB_REPO }}:5.0.13
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
