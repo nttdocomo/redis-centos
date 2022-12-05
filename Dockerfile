@@ -22,4 +22,8 @@ RUN set -x \
 	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
 	&& extraJemallocConfigureFlags="--build=$gnuArch" \
 # https://salsa.debian.org/debian/jemalloc/-/blob/c0a88c37a551be7d12e4863435365c9a6a51525f/debian/rules#L8-23
-	&& dpkgArch="$(dpkg --print-architecture)"
+	&& dpkgArch="$(dpkg --print-architecture)" \
+	&& case "${dpkgArch##*-}" in \
+		amd64 | i386 | x32) extraJemallocConfigureFlags="$extraJemallocConfigureFlags --with-lg-page=12" ;; \
+		*) extraJemallocConfigureFlags="$extraJemallocConfigureFlags --with-lg-page=16" ;; \
+	esac
