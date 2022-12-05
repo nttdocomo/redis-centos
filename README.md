@@ -1,1 +1,1 @@
-# redis-centos
+# centos-redis
