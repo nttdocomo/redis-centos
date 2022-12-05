@@ -19,4 +19,7 @@ RUN set -x \
 # (more exactly, this makes sure the default behavior of "save on SIGTERM" stays functional by default)
 # https://github.com/jemalloc/jemalloc/issues/467 -- we need to patch the "./configure" for the bundled jemalloc to match how Debian compiles, for compatibility
 # (also, we do cross-builds, so we need to embed the appropriate "--build=xxx" values to that "./configure" invocation)
-	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& extraJemallocConfigureFlags="--build=$gnuArch" \
+# https://salsa.debian.org/debian/jemalloc/-/blob/c0a88c37a551be7d12e4863435365c9a6a51525f/debian/rules#L8-23
+	&& dpkgArch="$(dpkg --print-architecture)"
