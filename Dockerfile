@@ -3,7 +3,7 @@ FROM centos:7.8.2003
 COPY ./redis-5.0.14.tar.gz /
 
 RUN set -x \
-    && yum --nogpg install -y epel-release make gcc libgcc.x86_64 libgcc.i686 glibc-devel.i686 glibc-devel openssl-devel gcc-c++ kernel-devel \
+    && yum --nogpg install -y epel-release make gcc libgcc.x86_64 glibc-devel openssl-devel gcc-c++ kernel-devel \
 	&& yum --nogpg install -y dpkg-dev jemalloc \
     && mkdir -p /usr/src/redis \
     && tar -xzC /usr/src/redis --strip-components=1 -f redis-5.0.14.tar.gz \
@@ -32,7 +32,8 @@ RUN set -x \
 	&& grep -F 'cd jemalloc && ./configure ' /usr/src/redis/deps/Makefile \
 	&& sed -ri 's!cd jemalloc && ./configure !&'"$extraJemallocConfigureFlags"' !' /usr/src/redis/deps/Makefile \
 	&& grep -F "cd jemalloc && ./configure $extraJemallocConfigureFlags " /usr/src/redis/deps/Makefile \
-	&& make -C /usr/src/redis -j "$(nproc)" 32bit\
+	&& make -C /usr/src/redis -j "$(nproc)" all \
 	&& make -C /usr/src/redis install \
+	&& rm -r /usr/src/redis \
     && redis-cli --version \
 	&& redis-server --version
