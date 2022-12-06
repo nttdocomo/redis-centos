@@ -3,6 +3,7 @@ FROM centos:7.8.2003
 COPY ./redis-5.0.14.tar.gz /
 
 RUN set -x \
+    && yum remove -y libgcc \
     && yum --nogpg install -y epel-release make libgcc.i686 openssl-devel \
 	&& yum --nogpg install -y dpkg-dev jemalloc \
     && mkdir -p /usr/src/redis \
