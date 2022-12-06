@@ -32,7 +32,7 @@ RUN set -x \
 	&& grep -F 'cd jemalloc && ./configure ' /usr/src/redis/deps/Makefile \
 	&& sed -ri 's!cd jemalloc && ./configure !&'"$extraJemallocConfigureFlags"' !' /usr/src/redis/deps/Makefile \
 	&& grep -F "cd jemalloc && ./configure $extraJemallocConfigureFlags " /usr/src/redis/deps/Makefile \
-	&& make -C /usr/src/redis -j "$(nproc)" 32bit \
+	&& make -C /usr/src/redis -j "$(nproc)" \
 	&& make -C /usr/src/redis install \
     && redis-cli --version \
 	&& redis-server --version
