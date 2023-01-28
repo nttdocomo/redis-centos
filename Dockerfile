@@ -37,3 +37,8 @@ RUN set -x \
 	&& rm -r /usr/src/redis \
     && redis-cli --version \
 	&& redis-server --version
+
+	RUN mkdir /data && chown redis:redis /data
+	WORKDIR /data
+
+	CMD ["redis-server"]
