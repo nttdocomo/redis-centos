@@ -1,7 +1,7 @@
 FROM centos:7.8.2003
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -r -g 1000 redis && useradd -r -g redis -u 999 redis
+RUN groupadd -r -g 999 redis && useradd -r -g redis -u 999 redis
 
 COPY ./redis-5.0.14.tar.gz /
 
@@ -41,7 +41,12 @@ RUN set -x \
     && redis-cli --version \
 	&& redis-server --version
 
-	RUN mkdir /data && chown redis:redis /data
-	WORKDIR /data
+RUN mkdir /data && chown redis:redis /data
+WORKDIR /data
 
-	CMD ["redis-server"]
+COPY ./redis.conf /usr/local/etc/redis/
+
+# COPY docker-entrypoint.sh /usr/local/bin/
+# ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["redis-server"]
