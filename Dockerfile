@@ -46,7 +46,7 @@ WORKDIR /data
 
 COPY ./redis.conf /usr/local/etc/redis/
 
-# COPY docker-entrypoint.sh /usr/local/bin/
-# ENTRYPOINT ["docker-entrypoint.sh"]
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["redis-server"]
